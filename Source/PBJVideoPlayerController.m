@@ -59,6 +59,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     AVAsset *_asset;
     AVPlayer *_player;
     AVPlayerItem *_playerItem;
+    UIActivityIndicatorView *_activityIndicatorView;
 
     NSString *_videoPath;
     PBJVideoView *_videoView;
@@ -158,6 +159,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
         return;
     
     _flags.readyForPlayback = NO;
+    [_activityIndicatorView startAnimating];
 
     if (_playbackState == PBJVideoPlayerPlaybackStatePlaying) {
         [self pause];
@@ -273,8 +275,15 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     // load the view
     _videoView = [[PBJVideoView alloc] initWithFrame:CGRectZero];
     _videoView.videoFillMode = AVLayerVideoGravityResizeAspect;
-    _videoView.playerLayer.hidden = YES;
     self.view = _videoView;
+    
+    // Activity indicator view
+    
+    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    _activityIndicatorView.hidesWhenStopped = YES;
+    [self.view addSubview:_activityIndicatorView];
+    _activityIndicatorView.center = CGPointMake(_videoView.frame.size.width / 2.f, _videoView.frame.size.height / 2.f);
+    _activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     
     // Application NSNotifications
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];        
@@ -473,6 +482,7 @@ typedef void (^PBJVideoPlayerBlock)();
                 _videoView.playerLayer.backgroundColor = [[UIColor blackColor] CGColor];
                 [_videoView.playerLayer setPlayer:_player];
                 _videoView.playerLayer.hidden = NO;
+                [_activityIndicatorView stopAnimating];
                 [_delegate videoPlayerReady:self];
                 break;
             }
