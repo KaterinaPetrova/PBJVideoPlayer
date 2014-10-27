@@ -54,6 +54,8 @@ typedef NS_ENUM(NSInteger, PBJVideoPlayerBufferingState) {
 @property (nonatomic, readonly) PBJVideoPlayerPlaybackState playbackState;
 @property (nonatomic, readonly) PBJVideoPlayerBufferingState bufferingState;
 
+- (CGSize)sizeThatFits:(CGSize)fitSize;
+
 - (void)playFromBeginning;
 - (void)playFromCurrentTime;
 - (void)pause;

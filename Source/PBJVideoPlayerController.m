@@ -308,6 +308,48 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
         [self pause];
 }
 
+- (CGSize)sizeThatFits:(CGSize)fitSize
+{
+    AVAssetTrack *vT = nil;
+    if ([[_asset tracksWithMediaType:AVMediaTypeVideo] count] != 0)
+        vT = [[_asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+    
+    if (!vT)
+        return CGSizeZero;
+    
+    CGSize videoSize = [vT naturalSize];
+    CGAffineTransform txf = [vT preferredTransform];
+    
+    UIInterfaceOrientation orientation;
+    if (videoSize.width == txf.tx && videoSize.height == txf.ty)
+        orientation = UIInterfaceOrientationLandscapeRight;
+    else if (txf.tx == 0 && txf.ty == 0)
+        orientation = UIInterfaceOrientationLandscapeLeft;
+    else if (txf.tx == 0 && txf.ty == videoSize.width)
+        orientation = UIInterfaceOrientationPortraitUpsideDown;
+    else
+        orientation = UIInterfaceOrientationPortrait;
+    
+    if (UIInterfaceOrientationIsPortrait(orientation)) {
+        CGFloat originWidth = videoSize.width;
+        videoSize.width = videoSize.height;
+        videoSize.height = originWidth;
+    }
+    
+    CGFloat aspectRatio = videoSize.width / videoSize.height;
+    CGSize size;
+    if (fitSize.width / aspectRatio <= fitSize.height) {
+        size.width = MIN(fitSize.width, videoSize.width);
+        size.height = size.width / aspectRatio;
+    } else {
+        size.height = MIN(fitSize.height, videoSize.height);
+        size.width = size.height * aspectRatio;
+    }
+    return size;
+}
+
+
+
 #pragma mark - private methods
 
 - (void)_videoPlayerAudioSessionActive:(BOOL)active
