@@ -323,7 +323,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     UIInterfaceOrientation orientation;
     if (videoSize.width == txf.tx && videoSize.height == txf.ty)
         orientation = UIInterfaceOrientationLandscapeRight;
-    else if (txf.tx == 0 && txf.ty == 0 && txf.c != 0)
+    else if (txf.tx == 0 && txf.ty == 0 && txf.c == 0)
         orientation = UIInterfaceOrientationLandscapeLeft;
     else if (txf.tx == 0 && txf.ty == videoSize.width)
         orientation = UIInterfaceOrientationPortraitUpsideDown;
