@@ -37,6 +37,11 @@ typedef NS_ENUM(NSInteger, PBJVideoPlayerBufferingState) {
     PBJVideoPlayerBufferingStateDelayed,
 };
 
+typedef NS_ENUM(NSInteger, PBJVideoPlayerStyle) {
+    PBJVideoPlayerStyleWhite = 0,
+    PBJVideoPlayerStyleBlack = 1,
+};
+
 // PBJVideoPlayerController.view provides the interface for playing/streaming videos
 @protocol PBJVideoPlayerControllerDelegate;
 @interface PBJVideoPlayerController : UIViewController
@@ -47,6 +52,7 @@ typedef NS_ENUM(NSInteger, PBJVideoPlayerBufferingState) {
 @property (nonatomic) BOOL playbackLoops;
 @property (nonatomic) BOOL playbackFreezesAtEnd;
 @property (nonatomic, readonly) NSTimeInterval maxDuration;
+@property (nonatomic, assign) PBJVideoPlayerStyle playerStyle;
 
 // defaults to AVLayerVideoGravityResizeAspect
 @property (nonatomic, copy) NSString *videoFillMode;

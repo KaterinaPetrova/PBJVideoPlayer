@@ -84,6 +84,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
 @synthesize playbackState = _playbackState;
 @synthesize bufferingState = _bufferingState;
 @synthesize videoFillMode = _videoFillMode;
+@synthesize playerStyle = _playerStyle;
 
 #pragma mark - getters/setters
 
@@ -279,7 +280,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     
     // Activity indicator view
     
-    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    _activityIndicatorView =  [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:_playerStyle == PBJVideoPlayerStyleWhite ? UIActivityIndicatorViewStyleGray : UIActivityIndicatorViewStyleWhite];
     _activityIndicatorView.hidesWhenStopped = YES;
     [self.view addSubview:_activityIndicatorView];
     _activityIndicatorView.center = CGPointMake(_videoView.frame.size.width / 2.f, _videoView.frame.size.height / 2.f);
@@ -529,7 +530,7 @@ typedef void (^PBJVideoPlayerBlock)();
         {
             case AVPlayerStatusReadyToPlay:
             {
-                _videoView.playerLayer.backgroundColor = [[UIColor blackColor] CGColor];
+                _videoView.playerLayer.backgroundColor = _playerStyle == PBJVideoPlayerStyleWhite ? [[UIColor whiteColor] CGColor] : [[UIColor blackColor] CGColor];
                 [_videoView.playerLayer setPlayer:_player];
                 _videoView.playerLayer.hidden = NO;
                 [_activityIndicatorView stopAnimating];
