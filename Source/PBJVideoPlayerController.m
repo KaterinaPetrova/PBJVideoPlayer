@@ -280,7 +280,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     
     // Activity indicator view
     
-    _activityIndicatorView =  [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:_playerStyle == PBJVideoPlayerStyleWhite ? UIActivityIndicatorViewStyleGray : UIActivityIndicatorViewStyleWhite];
+    _activityIndicatorView =  [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     _activityIndicatorView.hidesWhenStopped = YES;
     [self.view addSubview:_activityIndicatorView];
     _activityIndicatorView.center = CGPointMake(_videoView.frame.size.width / 2.f, _videoView.frame.size.height / 2.f);
