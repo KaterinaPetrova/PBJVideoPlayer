@@ -505,8 +505,8 @@ typedef void (^PBJVideoPlayerBlock)();
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ( context == (__bridge void *)(PBJVideoPlayerObserverContext) ) {
-    
-    
+        
+        
     } else if ( context == (__bridge void *)(PBJVideoPlayerItemObserverContext) ) {
         
         if ([keyPath isEqualToString:PBJVideoPlayerControllerEmptyBufferKey]) {
@@ -519,7 +519,9 @@ typedef void (^PBJVideoPlayerBlock)();
                 if (_playbackState == PBJVideoPlayerPlaybackStatePlaying) {
                     [self playFromCurrentTime];
                 }
-            }
+                [_activityIndicatorView stopAnimating];
+            } else {
+            };
         }
         
         AVPlayerStatus status = [change[NSKeyValueChangeNewKey] integerValue];
@@ -527,7 +529,9 @@ typedef void (^PBJVideoPlayerBlock)();
         {
             case AVPlayerStatusReadyToPlay:
             {
-                _videoView.playerLayer.backgroundColor = _playerStyle == PBJVideoPlayerStyleWhite ? [[UIColor whiteColor] CGColor] : [[UIColor blackColor] CGColor];
+                [UIView animateWithDuration:0.15 animations:^{
+                    _videoView.playerLayer.backgroundColor = _playerStyle == PBJVideoPlayerStyleWhite ? [[UIColor whiteColor] CGColor] : [[UIColor blackColor] CGColor];
+                }];
                 [_videoView.playerLayer setPlayer:_player];
                 _videoView.playerLayer.hidden = NO;
                 [_activityIndicatorView stopAnimating];
@@ -541,14 +545,17 @@ typedef void (^PBJVideoPlayerBlock)();
                 break;
             }
             case AVPlayerStatusUnknown:
+            {
+                [_activityIndicatorView startAnimating];
+            }
             default:
                 break;
         }
-
+        
     } else {
-    
-		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-	
+        
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        
     }
 }
 
