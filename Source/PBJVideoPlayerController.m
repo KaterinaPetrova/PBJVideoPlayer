@@ -296,9 +296,6 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (_playbackState == PBJVideoPlayerPlaybackStatePaused)
-        [self playFromBeginning];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
